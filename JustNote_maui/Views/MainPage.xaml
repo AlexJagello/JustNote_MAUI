@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
+             xmlns:behavior="clr-namespace:JustNote_maui.Behaviors"
+             x:Class="JustNote_maui.MainPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:MainViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="FrameRadioTemplate">
+            <Frame Padding="5" CornerRadius="5" BorderColor="#2B79E1">
+
+                <ContentPresenter>
+                    <ContentPresenter.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="HorizontalOptions" Value="Center"/>
+                            <Setter Property="VerticalOptions" Value="Center"/>
+
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Label" Value="True"  Binding="{Binding Path=IsChecked, Source={x:RelativeSource AncestorType={x:Type RadioButton}}}">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentPresenter.Resources>
+                </ContentPresenter>
+
+                 <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CheckedStates">
+                        <VisualState x:Name="Checked">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#2B79E1"/>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="Unchecked">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#f3f2f1"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Frame>
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="0.15*"/>
+        </Grid.RowDefinitions>
+        <Grid BackgroundColor="DimGray" ColumnSpacing="10" Padding="0,0,0,0" VerticalOptions="FillAndExpand">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="42"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton ControlTemplate="{StaticResource FrameRadioTemplate}" CheckedChanged="ButtonCreatedFilter_Clicked" Padding="0" VerticalOptions="FillAndExpand" HeightRequest="50" >
+                <RadioButton.Content>
+                    <Image Source="sortcreate.png" />
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton  ControlTemplate="{StaticResource FrameRadioTemplate}" Grid.Column="1" CheckedChanged="ButtonEditedFilter_Clicked" Padding="0" VerticalOptions="FillAndExpand" HeightRequest="50">
+                <RadioButton.Content>
+                    <Image Source="sortedit.png" />
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton  ControlTemplate="{StaticResource FrameRadioTemplate}" Grid.Column="2" CheckedChanged="ButtonAlphabetFilter_Clicked" Padding="0" VerticalOptions="FillAndExpand" HeightRequest="50">
+                <RadioButton.Content>
+                    <Image Source="sortabc.png"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <ImageButton Clicked="Button_Clicked" Grid.Column="3" Background="White" BackgroundColor="White" Source="transfer.png" Padding="1" Margin="5"/>
+        </Grid>
+
+        <ListView x:Name="notesList" Grid.Row="1" Grid.RowSpan="3" ItemsSource="{Binding}" SelectedItem="{Binding SelectedItem}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Height="62" >
+                        <ViewCell.View>
+                            <Grid Padding="0" BackgroundColor="#7F7D7D7D" Margin="0,2,0,1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding NoteTitle}" TextColor="Black" Grid.ColumnSpan="2" FontSize="20" FontAttributes="Bold"/>
+                                <Label Text="{Binding CreationDataTime, StringFormat='Created: {0}'}" TextColor="Black" Grid.Row="1" FontSize="14" FontAttributes="Italic" Margin="4,0,0,0"/>
+                                <Label Text="{Binding LastEditDataTime, StringFormat='Edited: {0}'}" TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Italic"/>
+                            </Grid>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+
+        <Grid Grid.Row="2" IsVisible="{Binding Toggled}" HorizontalOptions="End" VerticalOptions="End" HeightRequest="70">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ImageButton Grid.Row="0" Command="{Binding AddNoteListCommand}" Source="listnote.png"/>
+            <ImageButton Grid.Row="1" Command="{Binding AddCommand}" Source="simplenote.png"/>
+        </Grid>
+
+
+        <Frame CornerRadius="35" Grid.Row="3" HeightRequest="70" WidthRequest="70" HorizontalOptions="End" VerticalOptions="End" Background="DimGray">
+            <Grid>
+                <Label x:Name="addCheckBox"  Text="+"  FontSize="30" FontAttributes="Bold" 
+                    Margin="5" >
+                    <Label.Behaviors>
+                        <behavior:ToggleBehavior x:Name="autoToggleBehavior" IsToggled="{Binding Toggled, Mode=OneWayToSource}"/>
+                    </Label.Behaviors>
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference autoToggleBehavior},Path=IsToggled}" Value="False" >
+                            <Setter Property="BackgroundColor" Value="White"/>
+                            <Setter Property="TextColor" Value="Gray"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference autoToggleBehavior},Path=IsToggled}" Value="True" >
+                            <Setter Property="BackgroundColor" Value="Blue"/>
+                            <Setter Property="TextColor" Value="White"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Grid>
+        </Frame>
+    </Grid>
+
+</ContentPage>

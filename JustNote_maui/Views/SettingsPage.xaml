@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
+             x:Class="JustNote_maui.SettingsPage"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:SettingsPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Text="Dark/Light theme" TextColor="Black"/>
+            <Switch Grid.Column="1"/>
+
+            <Label Text="Clear All data" Grid.Row="1" TextColor="Black"/>
+            <Button Text="Clear" Grid.Column="1" Grid.Row="1"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

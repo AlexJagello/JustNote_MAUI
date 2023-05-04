@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="JustNote_maui.NoteList"
+             Title="New List Note">
+
+    <ContentPage.BindingContext>
+        <vm:NoteListViewModel/>
+    </ContentPage.BindingContext>
+    
+    
+    <ContentPage.Content>
+        <StackLayout Margin="5">
+            <Label Text="Title: " />
+            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}">
+                <Entry.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Entry.Keyboard>
+            </Entry>
+            <Label Text="List: "/>
+
+            <ListView ItemsSource="{Binding Note.NoteList}" SelectedItem="{Binding SelectedItemListOfNote}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="15"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox IsChecked="{Binding IsDone}"/>
+                                    <Editor Grid.Column="1" Text="{Binding ItemNote}" IsReadOnly="{Binding IsDone}">
+                                        <Editor.Keyboard>
+                                            <Keyboard x:FactoryMethod="Create">
+                                                <x:Arguments>
+                                                    <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                                                </x:Arguments>
+                                            </Keyboard>
+                                        </Editor.Keyboard>
+                                       <!--<Editor.Effects> -->
+                                        <!--      <xct:LifecycleEffect Loaded="LifecycleEffect_Loaded" /> -->
+                                        <!--  </Editor.Effects>  -->
+                                    </Editor>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Grid MinimumHeightRequest="28">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Add list item" Command="{Binding AddListItem}" Grid.Column="0"/>
+                <Button Text="Delete list item" Command="{Binding RemoveListItem}" Grid.Column="1"/>
+            </Grid>
+          
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center">
+                <Button Text="Ok" Command="{Binding SaveCommand}"/>
+                <Button Text="Clear" Command="{Binding ClearCommand}"/>
+                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

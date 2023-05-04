@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
+             x:Class="JustNote_maui.Note"
+             Title="New Note">
+
+    <ContentPage.BindingContext>
+        <vm:NoteViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Margin="5">
+            <Label Text="Title: " />
+            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}">
+                <Entry.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Entry.Keyboard>
+            </Entry>
+            <Label Text="Text: "/>
+            <Editor HorizontalOptions="FillAndExpand" Text="{Binding Note.NoteText, Mode=TwoWay}" VerticalOptions="FillAndExpand" MinimumWidthRequest="350" MaximumWidthRequest="4000">
+                <Editor.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Editor.Keyboard>
+            </Editor>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center">
+                <Button Text="Ok" Command="{Binding SaveCommand}"/>
+                <Button Text="Clear" Command="{Binding ClearCommand}"/>
+                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

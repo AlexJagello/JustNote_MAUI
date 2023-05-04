@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       Title="JustNote_maui"
+       xmlns:local="clr-namespace:JustNote_maui"
+       x:Class="JustNote_maui.AppShell">
+
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+            </Style>
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}"  x:Key="fItem"/>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <Shell.FlyoutHeader>
+        <StackLayout BackgroundColor="White" Padding="10">
+            <Image Source="cactusICON.png"/>
+            <Label Text="Hi, User!" TextColor="Black"/>
+        </StackLayout>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="My Notes" Icon="notes.png" x:Name="MainPagee">
+        <ShellContent Route="Main" ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Common" FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Settings" Icon="settings.png">
+            <ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate local:SettingsPage}"/>
+        </Tab>
+        <Tab Title="Help" Icon="question.png">
+            <ShellContent Route="Help" ContentTemplate="{DataTemplate local:Help}"/>
+        </Tab>
+        <Tab Title="About" Icon="info.png">
+            <ShellContent Route="About" ContentTemplate="{DataTemplate local:About}"/>
+        </Tab>
+    </FlyoutItem>
+</Shell>
