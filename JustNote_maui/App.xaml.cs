@@ -34,7 +34,6 @@ namespace JustNote_maui
                 if (requestSimpleNote == null)
                 {
                     requestSimpleNote = new NoteRepository<NoteModel>(Database);
-                      ;
                 }
                 return requestSimpleNote;
             }

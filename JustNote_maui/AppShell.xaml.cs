@@ -1,4 +1,5 @@
 ﻿using JustNote_maui;
+using JustNote_maui.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

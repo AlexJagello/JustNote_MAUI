@@ -4,6 +4,9 @@
              xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
              x:Class="JustNote_maui.Note"
              Title="New Note">
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Theme/BlueTheme.xaml"/>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <vm:NoteViewModel/>
@@ -32,11 +35,16 @@
                 </Editor.Keyboard>
             </Editor>
 
-            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center">
-                <Button Text="Ok" Command="{Binding SaveCommand}"/>
-                <Button Text="Clear" Command="{Binding ClearCommand}"/>
-                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}"/>
-            </StackLayout>
+            <Grid VerticalOptions="End">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Ok" Command="{Binding SaveCommand}" Margin="4,2,4,2" Style="{StaticResource BlueButtonStyle}"/>
+                <Button Text="Clear" Command="{Binding ClearCommand}" Margin="4,2,4,2" Grid.Column="1" Style="{StaticResource BlueButtonStyle}"/>
+                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}" Margin="4,2,4,2" Grid.Column="2" Style="{StaticResource BlueButtonStyle}"/>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

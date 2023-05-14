@@ -9,7 +9,7 @@ namespace JustNote_maui.Models
     public class ItemOfNoteList : INotifyPropertyChanged
     {
 
-        private string itemNote = "";
+        private string itemNote = string.Empty;
         private bool isDone = false;
         private bool isFocused = true;
 

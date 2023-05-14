@@ -5,7 +5,10 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="JustNote_maui.NoteList"
              Title="New List Note">
-
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Theme/BlueTheme.xaml"/>
+    </ContentPage.Resources>
+    
     <ContentPage.BindingContext>
         <vm:NoteListViewModel/>
     </ContentPage.BindingContext>
@@ -32,12 +35,12 @@
                             <ViewCell.View>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="40"/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="15"/>
                                     </Grid.ColumnDefinitions>
                                     <CheckBox IsChecked="{Binding IsDone}"/>
-                                    <Editor Grid.Column="1" Text="{Binding ItemNote}" IsReadOnly="{Binding IsDone}">
+                                    <Editor Grid.Column="1" Text="{Binding ItemNote, Mode=TwoWay}" IsReadOnly="{Binding IsDone}" MinimumWidthRequest="350" MaximumWidthRequest="4000">
                                         <Editor.Keyboard>
                                             <Keyboard x:FactoryMethod="Create">
                                                 <x:Arguments>
@@ -55,21 +58,26 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <Grid MinimumHeightRequest="28">
+
+            <Grid MinimumHeightRequest="28" HorizontalOptions="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Text="Add list item" Command="{Binding AddListItem}" Grid.Column="0"/>
-                <Button Text="Delete list item" Command="{Binding RemoveListItem}" Grid.Column="1"/>
+                <Button Text="Add list item" Command="{Binding AddListItem}" Grid.Column="0" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
+                <Button Text="Delete list item" Command="{Binding RemoveListItem}" Grid.Column="1" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
             </Grid>
-          
-            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="Center">
-                <Button Text="Ok" Command="{Binding SaveCommand}"/>
-                <Button Text="Clear" Command="{Binding ClearCommand}"/>
-                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}"/>
-            </StackLayout>
+
+            <Grid VerticalOptions="End">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Ok" Command="{Binding SaveCommand}" Margin="4,2,4,2" Style="{StaticResource BlueButtonStyle}"/>
+                <Button Text="Clear" Command="{Binding ClearCommand}" Margin="4,2,4,2" Grid.Column="1" Style="{StaticResource BlueButtonStyle}"/>
+                <Button Text="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding Note.Id}" Margin="4,2,4,2" Grid.Column="2" Style="{StaticResource BlueButtonStyle}"/>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

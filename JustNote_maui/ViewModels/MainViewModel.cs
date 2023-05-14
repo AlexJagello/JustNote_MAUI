@@ -7,17 +7,22 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 using System.Text.Json;
+using System.Collections;
 
 namespace JustNote_maui.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private ObservableCollection<NoteModel> nodeModels = new ObservableCollection<NoteModel>();
-        private bool toggled = false;
+        private ObservableCollection<INoteModel> noteModels;
         private INoteModel selectedItem;
+        private bool isSortReverseCheked;
 
         private ICommand addCommand;
         private ICommand addNoteListCommand;
+        private ICommand sortCreateCommand;
+        private ICommand sortEditCommand;
+        private ICommand sortABCCommand;
+
 
         public INoteModel SelectedItem
         {
@@ -31,43 +36,43 @@ namespace JustNote_maui.ViewModels
             }
         }
 
-        public ObservableCollection<NoteModel> NodeModels
+        public ObservableCollection<INoteModel> NoteModels
         {
-            get => nodeModels;
+            get => noteModels;
             set
             {
-                nodeModels = value;
+                noteModels = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool Toggled
+        public bool IsSortReverseCheked
         {
-            get => toggled;
+            get => isSortReverseCheked;
             set
             {
-                if (toggled == value) return;
-                    toggled = value;
+                isSortReverseCheked = value;
+                ReverseSortingFunc();
                 OnPropertyChanged();
             }
         }
 
 
-        public ICommand AddCommand
-        {
-            get => addCommand;
-        }
-
-        public ICommand AddNoteListCommand
-        {
-            get => addNoteListCommand;
-        }
+        public ICommand AddCommand { get => addCommand; }
+        public ICommand AddNoteListCommand { get => addNoteListCommand; }
+        public ICommand SortCreateCommand { get => sortCreateCommand; }
+        public ICommand SortEditCommand { get => sortEditCommand; }
+        public ICommand SortABCCommand { get => sortABCCommand; }
 
         public MainViewModel() 
         {
             Title = "My Notes";
+
             addCommand = new Command(AddNoteItem);
             addNoteListCommand = new Command(AddNoteListItem);
+            sortCreateCommand = new Command(SortCreateFunc);
+            sortEditCommand = new Command(SortEditFunc);
+            sortABCCommand = new Command(SortABCFunc);
         }
 
         private async void UpdateNote(INoteModel noteModel)
@@ -97,5 +102,31 @@ namespace JustNote_maui.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(NoteList));
         }
+
+        public void SortCreateFunc()
+        {
+            IEnumerable<INoteModel> sortedList = NoteModels.OrderByDescending(t => t.CreationDataTime);
+            if (isSortReverseCheked) sortedList = sortedList.Reverse();
+            NoteModels = new ObservableCollection<INoteModel>(sortedList);
+        }
+        public void SortEditFunc()
+        {
+            IEnumerable<INoteModel> sortedList = NoteModels.OrderByDescending(t => t.LastEditDataTime);
+            if (isSortReverseCheked) sortedList = sortedList.Reverse();
+            NoteModels = new ObservableCollection<INoteModel>(sortedList);
+        }
+        public void SortABCFunc()
+        {
+            IEnumerable<INoteModel> sortedList = NoteModels.OrderBy(t => t.NoteTitle);
+            if (isSortReverseCheked) sortedList = sortedList.Reverse();
+            NoteModels = new ObservableCollection<INoteModel>(sortedList);
+        }
+
+        public void ReverseSortingFunc()
+        {
+            var sortedList = NoteModels.Reverse();
+            NoteModels = new ObservableCollection<INoteModel>(sortedList);
+        }
+
     }
 }

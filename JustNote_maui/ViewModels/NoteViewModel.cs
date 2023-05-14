@@ -25,8 +25,10 @@ namespace JustNote_maui.ViewModels
         }
 
       
+
         public override void SaveNoteItem(INoteModel noteModel)
         {
+            AddNoteTitleIfItEmpty(Note.NoteText);
             App.RequestSimpleNote.SaveItem(Note);
         }
 

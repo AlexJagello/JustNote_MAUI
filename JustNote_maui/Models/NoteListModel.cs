@@ -12,7 +12,7 @@ namespace JustNote_maui.Models
     [Table("ListNotes")]
     public class NoteListModel : INoteModel, INotifyPropertyChanged
     {
-        private string noteTitle = "";
+        private string noteTitle = string.Empty;
         private IEnumerable<ItemOfNoteList> listNote;
         private DateTime? creationDataTime = null;
         private DateTime lastEditDataTime;

@@ -87,7 +87,7 @@ namespace JustNote_maui.ViewModels
         public override void SaveNoteItem(INoteModel noteModel)
         {
             Note.ListNoteStringInerpret = JsonSerializer.Serialize(Note.NoteList);
-
+            AddNoteTitleIfItEmpty(Note.NoteList.First().ItemNote);
             App.RequestListNote.SaveItem(noteModel);
         }
 
@@ -95,8 +95,6 @@ namespace JustNote_maui.ViewModels
         {
             App.RequestListNote.DeleteItem(id);
         }
-
-
 
         private async void ItemListOfNotes_PropertyChangedAsync(object sender, PropertyChangedEventArgs e)
         {

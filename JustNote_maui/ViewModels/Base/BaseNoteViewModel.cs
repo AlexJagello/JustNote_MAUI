@@ -58,6 +58,32 @@ namespace JustNote_maui.ViewModels
             await Shell.Current.GoToAsync("..");
         }
 
+
+        protected void AddNoteTitleIfItEmpty(string noteText)
+        {
+            if (Note.NoteTitle.Trim(' ') == string.Empty)
+            {
+                int border = 40;
+                string firstLine = noteText.Split(new char[] { '\n', '\r' })[0];
+                if (firstLine.Length >= border)
+                {
+
+                    var splitedstr = firstLine.Substring(0, border).Split(" ");
+
+                    if (splitedstr.Length <= 1)
+                        Note.NoteTitle = splitedstr[0];
+                    else
+                        for (int i = 0; i < splitedstr.Length - 1; i++)
+                            Note.NoteTitle += splitedstr[i] + " ";
+                }
+                else
+                {
+                    Note.NoteTitle = noteText;
+                }
+            }
+        }
+
+
         public abstract void SaveNoteItem(INoteModel noteModel);
 
         public abstract void Clear(object parameter);

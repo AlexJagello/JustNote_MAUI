@@ -16,17 +16,23 @@ namespace JustNote_maui.Behaviors
             };
         }
 
-        public static readonly BindableProperty IsToggledProperty = BindableProperty.Create("IsToggled", typeof(bool), typeof(ToggleBehavior), false, propertyChanged: OnIsToggledChanged);//Create<ToggleBehavior, bool>(tb => tb.IsToggled, false);
+        public static readonly BindableProperty IsToggledProperty = BindableProperty.Create("IsToggled", typeof(bool), typeof(ToggleBehavior), false, propertyChanged: OnIsToggledChanged);
 
+        public event EventHandler<bool> OnChecked;
         private static void OnIsToggledChanged(BindableObject bindable, object oldValue, object newValue)
         {
-
+            ToggleBehavior toggleBehavior = bindable as ToggleBehavior;
+            if( toggleBehavior != null) {
+                toggleBehavior.OnChecked?.Invoke(null, (bool)newValue);
+            }
         }
 
         public bool IsToggled
         {
             set { SetValue(IsToggledProperty, value); }
-            get { return (bool)GetValue(IsToggledProperty); }
+            get 
+            
+            { return (bool)GetValue(IsToggledProperty); }
         }
 
         protected override void OnAttachedTo(View bindable)

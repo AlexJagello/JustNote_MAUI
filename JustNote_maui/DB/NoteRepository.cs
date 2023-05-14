@@ -36,6 +36,15 @@ namespace JustNote_maui.DB
                 return database.Delete<T>(id);
             }
         }
+
+        public void Clear()
+        {
+            lock (locker)
+            {
+                database.DeleteAll<T>();
+            }
+        }
+
         public int SaveItem(INoteModel item)
         {
             lock (locker)

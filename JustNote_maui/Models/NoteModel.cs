@@ -11,8 +11,8 @@ namespace JustNote_maui.Models
     [Table("SimpleNotes")]
     public class NoteModel : INotifyPropertyChanged, INoteModel
     {
-        private string noteTitle = " ";
-        private string noteText = " ";
+        private string noteTitle = string.Empty;
+        private string noteText = string.Empty;
         private DateTime? creationDataTime = null;
         private DateTime lastEditDataTime;
 
