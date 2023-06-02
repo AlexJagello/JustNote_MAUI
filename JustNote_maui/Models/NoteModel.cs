@@ -17,6 +17,8 @@ namespace JustNote_maui.Models
         private DateTime lastEditDataTime;
 
 
+        public Type Type { get => GetType(); }
+
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
 

@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
              x:Class="JustNote_maui.Note"
-             Title="New Note">
+             Title="New Note" 
+             Background="{AppThemeBinding Dark={StaticResource ContentPageBackroundDarkBrush}, Light={StaticResource ContentPageBackroundLightBrush}}">
     <ContentPage.Resources>
-        <ResourceDictionary Source="/Theme/BlueTheme.xaml"/>
+        <ResourceDictionary Source="/Theme/Style.xaml"/>
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -13,9 +14,10 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout Margin="5">
-            <Label Text="Title: " />
-            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}">
+        <StackLayout Margin="5" >
+            <Label Text="Title: " Style="{StaticResource NoteLabel}"/>
+            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}" 
+                   Style="{StaticResource NoteEntry}">
                 <Entry.Keyboard>
                     <Keyboard x:FactoryMethod="Create">
                         <x:Arguments>
@@ -24,8 +26,9 @@
                     </Keyboard>
                 </Entry.Keyboard>
             </Entry>
-            <Label Text="Text: "/>
-            <Editor HorizontalOptions="FillAndExpand" Text="{Binding Note.NoteText, Mode=TwoWay}" VerticalOptions="FillAndExpand" MinimumWidthRequest="350" MaximumWidthRequest="4000">
+            <Label Text="Text: " Style="{StaticResource NoteLabel}"/>
+            <Editor HorizontalOptions="FillAndExpand" Text="{Binding Note.NoteText, Mode=TwoWay}" VerticalOptions="FillAndExpand" MinimumWidthRequest="350" MaximumWidthRequest="4000"
+                   Style="{StaticResource NoteEditor}">
                 <Editor.Keyboard>
                     <Keyboard x:FactoryMethod="Create">
                         <x:Arguments>

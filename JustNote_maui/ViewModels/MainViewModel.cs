@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Input;
 using System.Text.Json;
 using System.Collections;
+using System.Linq;
+using Microsoft.Maui.Controls;
 
 namespace JustNote_maui.ViewModels
 {
@@ -81,7 +83,7 @@ namespace JustNote_maui.ViewModels
             {
                 Note notePage = new Note();
                 notePage.BindingContext = new NoteViewModel() { Note = (NoteModel)noteModel };
-                await Shell.Current.Navigation.PushAsync(notePage);
+                await AppShell.Current.Navigation.PushAsync(notePage);
             }
             if (noteModel is NoteListModel noteListModel)
             { 

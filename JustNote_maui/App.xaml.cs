@@ -4,7 +4,7 @@ using JustNote_maui;
 using SQLite;
 using System;
 using System.IO;
-
+using Microsoft.Maui.Controls;
 
 namespace JustNote_maui
 {
@@ -55,6 +55,7 @@ namespace JustNote_maui
 
         public App()
         {
+            
             InitializeComponent();
             MainPage = new AppShell();         
         }

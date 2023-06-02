@@ -1,5 +1,8 @@
 ﻿using JustNote_maui.Models;
 using JustNote_maui.ViewModels;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,26 +42,34 @@ namespace JustNote_maui
         #region Animation
 
         private void ButtonCreatedFilter_Clicked(object sender, EventArgs e)
-        {           
-            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, Color.FromHex("#2B79E1"), 250);
-            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, Color.FromRgb(255, 255, 255) , 250);
-            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, Color.FromRgb(255, 255, 255), 250);
+        {
+            var selectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["FirstMainGradientStop"];  //(Application.Current.RequestedTheme == Microsoft.Maui.ApplicationModel.AppTheme.Light ? (Resources.First()).["SecondMainGradientStop"] : Resources["ThirdMainGradientStop"]);
+            var unselectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["AddButtonDark"];
+
+
+            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, selectedColor, 500);
+            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, unselectedColor, 500);
+            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, unselectedColor, 500);
         }
 
         private void ButtonEditedFilter_Clicked(object sender, EventArgs e)
         {
-            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, Color.FromHex("#2B79E1"), 500);
-            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, Color.FromRgb(255, 255, 255), 500);
-            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, Color.FromRgb(255, 255, 255), 500);
+            var selectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["FirstMainGradientStop"];  //(Application.Current.RequestedTheme == Microsoft.Maui.ApplicationModel.AppTheme.Light ? (Resources.First()).["SecondMainGradientStop"] : Resources["ThirdMainGradientStop"]);
+            var unselectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["AddButtonDark"];
+
+            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, selectedColor, 500);
+            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, unselectedColor, 500);
+            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, unselectedColor, 500);
         }
 
         private void ButtonAlphabetFilter_Clicked(object sender, EventArgs e)
         {
+            var selectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["FirstMainGradientStop"];  //(Application.Current.RequestedTheme == Microsoft.Maui.ApplicationModel.AppTheme.Light ? (Resources.First()).["SecondMainGradientStop"] : Resources["ThirdMainGradientStop"]);
+            var unselectedColor = (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["AddButtonDark"];
 
-
-            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, Color.FromHex("#2B79E1"), 500);
-            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, Color.FromRgb(255, 255, 255), 500);
-            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, Color.FromRgb(255, 255, 255), 500);
+            BackgroundAnimation(sortABCButton, sortABCButton.BackgroundColor, selectedColor, 500);
+            BackgroundAnimation(sortCreateButton, sortCreateButton.BackgroundColor, unselectedColor, 500);
+            BackgroundAnimation(sortEditButton, sortEditButton.BackgroundColor, unselectedColor, 500);
         }
 
         private void autoToggleBehavior_OnChecked(object sender, bool e)
@@ -100,14 +111,15 @@ namespace JustNote_maui
                         {0, 1, new Animation(callback: v => addFrame.Rotation = v,
                                    start: formAngle,
                                    end: toAngle,
-                                   finished: () => addGrid.IsVisible = true)
+                                   finished: () => addGrid.IsVisible = false)
                         }
+                
                     };
             animationCollapseGridForAddingNote.Commit(this, "CollapsedGridAnimation", rate: 15, length: 250);
         }
 
 
-        private void BackgroundAnimation(VisualElement self, Color fromColor, Color toColor, uint length = 250)
+        private void BackgroundAnimation(VisualElement self, Color fromColor, Color toColor, uint length = 500)
         {
             CreateBackgroundAnimation(self,fromColor,toColor).Commit(this, "BackgroundAnimation" + self.Id, 32, length, Easing.Linear);
         }
@@ -124,10 +136,11 @@ namespace JustNote_maui
 
         private void reverseSortFrameToggleBehavior_OnChecked(object sender, bool e)
         {
+
             if (e)
-                BackgroundAnimation(reverseSortFrame, reverseSortFrame.BackgroundColor, Color.FromHex("#2B79E1"), 500);
+                BackgroundAnimation(reverseSortFrame, reverseSortFrame.BackgroundColor, (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["FirstMainGradientStop"], 500);
             else
-                BackgroundAnimation(reverseSortFrame, reverseSortFrame.BackgroundColor, Color.FromRgb(255, 255, 255), 500);
+                BackgroundAnimation(reverseSortFrame, reverseSortFrame.BackgroundColor, (Microsoft.Maui.Graphics.Color)(Resources.MergedDictionaries.First())["AddButtonDark"], 500);
         }
 
         #endregion

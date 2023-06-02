@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
              xmlns:behavior="clr-namespace:JustNote_maui.Behaviors"
+             xmlns:converters="clr-namespace:JustNote_maui.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="JustNote_maui.MainPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Background="{AppThemeBinding Dark=#373737, Light=White}">
 
     <ContentPage.Resources>
-        <ResourceDictionary Source="/Theme/BlueTheme.xaml"/>
+        <ResourceDictionary Source="/Theme/Style.xaml"/>
+        <converters:DateTimeToStringConverter x:Key="dateTimeToStringConverter"/>
+        <converters:ItemToSourceConverter x:Key="itemToSourceConverter"/>
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -19,50 +24,71 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
             <RowDefinition/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="140"/>
             <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
-        <Grid BackgroundColor="DimGray" ColumnSpacing="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="2">
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="42"/>
             </Grid.ColumnDefinitions>
-            <ImageButton Grid.Column="0" x:Name="sortCreateButton" Clicked="ButtonCreatedFilter_Clicked" Source="sortcreate.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortCreateCommand}"/>
-            <ImageButton Grid.Column="1" x:Name="sortEditButton" Clicked="ButtonEditedFilter_Clicked" Source="sortedit.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortEditCommand}"/>
-            <ImageButton Grid.Column="2" x:Name="sortABCButton" Clicked="ButtonAlphabetFilter_Clicked" Source="sortabc.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortABCCommand}"/>
-
-            <Frame x:Name="reverseSortFrame" Grid.Column="3" CornerRadius="2" Padding="1" BackgroundColor="White">
+            <ImageButton Grid.Column="0" x:Name="sortCreateButton" Clicked="ButtonCreatedFilter_Clicked" Source="sortcreate.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortCreateCommand}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDarkDim}, Light={StaticResource ImageColorLight}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <ImageButton Grid.Column="1" x:Name="sortEditButton" Clicked="ButtonEditedFilter_Clicked" Source="sortedit.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortEditCommand}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDarkDim}, Light={StaticResource ImageColorLight}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <ImageButton Grid.Column="2" x:Name="sortABCButton" Clicked="ButtonAlphabetFilter_Clicked" Source="sortabc.png" Style="{StaticResource SortButtonStyle}" Command="{Binding SortABCCommand}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDarkDim}, Light={StaticResource ImageColorLight}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <Frame x:Name="reverseSortFrame" Grid.Column="3" Padding="1" Style="{StaticResource ChangeSortDirectionButtonStyle}">
                 <Frame.Behaviors>
                     <behavior:ToggleBehavior x:Name="reverseSortFrameToggleBehavior" OnChecked="reverseSortFrameToggleBehavior_OnChecked" IsToggled="{Binding IsSortReverseCheked, Mode=TwoWay}"/>
                 </Frame.Behaviors>
-                <Grid>
-                    <Image Source="transfer.png"/>
-                </Grid>
+                <Image Source="transfer.png">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDarkDim}, Light={StaticResource ImageColorLight}}" />
+                    </Image.Behaviors>
+                </Image>
             </Frame>
-            
-      
         </Grid>
 
-        <ListView x:Name="notesList" Grid.Row="1" Grid.RowSpan="3" ItemsSource="{Binding NoteModels, Mode=TwoWay}" SelectedItem="{Binding SelectedItem}" HasUnevenRows="True">
+        <ListView x:Name="notesList" Grid.Row="1" Grid.RowSpan="3" SeparatorColor="Transparent" ItemsSource="{Binding NoteModels, Mode=TwoWay}" SelectedItem="{Binding SelectedItem}" HasUnevenRows="True"
+                  Style="{StaticResource MainListView}" SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell Height="62" >
+                    <ViewCell Height="62">
                         <ViewCell.View>
-                            <Grid Padding="0" BackgroundColor="#7F7D7D7D" Margin="0,2,0,1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="{Binding NoteTitle}" TextColor="Black" Grid.ColumnSpan="2" FontSize="20" FontAttributes="Bold"/>
-                                <Label Text="{Binding CreationDataTime, StringFormat='Created: {0}'}" TextColor="Black" Grid.Row="1" FontSize="14" FontAttributes="Italic" Margin="4,0,0,0"/>
-                                <Label Text="{Binding LastEditDataTime, StringFormat='Edited: {0}'}" TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Italic"/>
-                            </Grid>
+                            <Border x:Name="itemFrame" BackgroundColor="#7F7D7D7D" Margin="6,3,6,3" Padding="3" HeightRequest="62" Style="{StaticResource MainListViewItem}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+                                <Grid Padding="0" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.ColumnSpan="2" Orientation="Horizontal">
+                                        <Image Source="{Binding Type,Converter={StaticResource itemToSourceConverter}}" WidthRequest="18"/>
+                                        <Label Text="{Binding NoteTitle}" TextColor="Black" Margin="3,0,0,0" FontSize="20" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                  
+                                    <Label Text="{Binding CreationDataTime, StringFormat='Created: {0}', Converter={StaticResource dateTimeToStringConverter}}" TextColor="Black" Grid.Row="1" FontSize="14" FontAttributes="Italic" Margin="4,0,0,0"/>
+                                    <Label Text="{Binding LastEditDataTime, StringFormat='Edited: {0}', Converter={StaticResource dateTimeToStringConverter}}" TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Italic"/>
+                                </Grid>
+                            </Border>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
@@ -71,24 +97,40 @@
         </ListView>
 
 
-        <Grid x:Name="addGrid" Grid.Row="2" IsVisible="False" HorizontalOptions="End" VerticalOptions="End" HeightRequest="70" Margin="4">
+        <Grid x:Name="addGrid" Grid.Row="2" IsVisible="False" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand" HeightRequest="70" WidthRequest="70" Margin="4" Padding="0">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
-            <ImageButton Grid.Row="0" Command="{Binding AddNoteListCommand}" Source="listnote.png"/>
-            <ImageButton Grid.Row="1" Command="{Binding AddCommand}" Source="simplenote.png"/>
+            <ImageButton Grid.Row="0" Command="{Binding AddNoteListCommand}" Source="listnote.png" Padding="1" Margin="0" Background="Transparent" BorderColor="Transparent" >
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDark}, Light={StaticResource ImageColorLight}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+
+            <ImageButton Grid.Row="1" Command="{Binding AddCommand}" Source="simplenote.png" Padding="1" Margin="0" Background="Transparent" BorderColor="Transparent">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDark}, Light={StaticResource ImageColorLight}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+
         </Grid>
 
 
-        <Frame x:Name="addFrame" CornerRadius="35" Grid.Row="3" HeightRequest="70" WidthRequest="70" Margin="0" Padding="2" HorizontalOptions="End" VerticalOptions="End" BorderColor="#2B79E1">
-            <Frame.Behaviors>
-                <behavior:ToggleBehavior x:Name="autoToggleBehavior" OnChecked="autoToggleBehavior_OnChecked"/>
-            </Frame.Behaviors>
-            <Grid>
-                <Image x:Name="addCheckBox" Source="add.png"/>
-            </Grid>
-        </Frame>
+        <Grid Grid.Row="3" HeightRequest="70" MaximumWidthRequest="70" WidthRequest="70" HorizontalOptions="EndAndExpand" VerticalOptions="End" Padding="0">
+            <Frame x:Name="addFrame" Style="{StaticResource AddNoteButton}" >
+                <Frame.Behaviors>
+                    <behavior:ToggleBehavior x:Name="autoToggleBehavior" OnChecked="autoToggleBehavior_OnChecked"/>
+                </Frame.Behaviors>
+
+                    <Image x:Name="addCheckBox" Source="add.png">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark={StaticResource ImageColorDark}, Light={StaticResource ImageColorLight}}" />
+                        </Image.Behaviors>
+                    </Image>
+
+            </Frame>
+        </Grid>
     </Grid>
 
 </ContentPage>

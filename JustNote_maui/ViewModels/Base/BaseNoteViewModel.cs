@@ -1,4 +1,5 @@
 ﻿using JustNote_maui.Models;
+using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -84,6 +85,7 @@ namespace JustNote_maui.ViewModels
         }
 
 
+       
         public abstract void SaveNoteItem(INoteModel noteModel);
 
         public abstract void Clear(object parameter);

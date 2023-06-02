@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
              x:Class="JustNote_maui.SettingsPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Background="{AppThemeBinding Dark={StaticResource ContentPageBackroundDarkBrush}, Light={StaticResource ContentPageBackroundLightBrush}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary x:Key="styleSource" Source="/Theme/Style.xaml"/>
+    </ContentPage.Resources>
+
 
     <ContentPage.BindingContext>
         <vm:SettingsPageViewModel/>
@@ -12,9 +18,9 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -22,10 +28,19 @@
             </Grid.ColumnDefinitions>
             
             <Label Text="Dark/Light theme" TextColor="Black"/>
-            <Switch Grid.Column="1"/>
+            <Switch Grid.Column="1" IsToggled="{Binding IsDarkTheme, Mode=TwoWay}"/>
 
             <Label Text="Clear All data" Grid.Row="1" TextColor="Black"/>
-            <Button Text="Clear" Grid.Column="1" Grid.Row="1"/>
+            <Button Text="Clear" Grid.Column="1" Grid.Row="1" Command="{Binding ClearDataBaseCommand}"/>
+
+            <Label Text="Language" Grid.Row="2"/>
+            <Picker Grid.Column="1" Grid.Row="2">
+                <Picker.Items>
+                    <x:String>English</x:String>
+                    <x:String>Русский</x:String>
+                    <x:String>Беларуская</x:String>
+                </Picker.Items>
+            </Picker>
 
         </Grid>
     </ContentPage.Content>

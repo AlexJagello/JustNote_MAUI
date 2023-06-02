@@ -1,4 +1,8 @@
-﻿namespace JustNote_maui;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+
+namespace JustNote_maui;
 
 public static class MauiProgram
 {
@@ -11,7 +15,7 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			}).UseMauiCommunityToolkit();
 
 		return builder.Build();
 	}

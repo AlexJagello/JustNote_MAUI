@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <Color x:Key="ListViewBackroundDark">#373737</Color>
+    <Color x:Key="ListViewBackroundLight">White</Color>
+    <Color x:Key="ContentPageBackroundDark">#373737</Color>
+    <Color x:Key="ContentPageBackroundLight">White</Color>
+    <Color x:Key="ImageColorDark">White</Color>
+    <Color x:Key="ImageColorLight">Black</Color>
+    <Color x:Key="ImageColorDarkDim">#D0D0D0</Color>
+    <Color x:Key="AddButtonDark">#717171</Color>
+    <Color x:Key="AddButtonLight">#c9c9c9</Color>
+
+    <Color x:Key="FirstMainGradientStop">#00ffff</Color>
+    <Color x:Key="SecondMainGradientStop">#b58fd9</Color>
+    <Color x:Key="ThirdMainGradientStop">#b683de</Color>
+
+    <Color x:Key="SortButtonDark">#717171</Color>
+    <Color x:Key="SortButtonLight">#c9c9c9</Color>
+
+    <Color x:Key="TextColorLight">Black</Color>
+    <Color x:Key="TextColorDark">White</Color>
+    <Color x:Key="LabelTextColorLight">#454545</Color>
+    <Color x:Key="LabelTextColorDark">#ECECEC</Color>
+
+
+    <SolidColorBrush x:Key="ListViewBackroundDarkBrush" Color="{StaticResource ListViewBackroundDark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ListViewBackroundLightBrush" Color="{StaticResource ListViewBackroundLight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ContentPageBackroundDarkBrush" Color="{StaticResource ContentPageBackroundDark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ContentPageBackroundLightBrush" Color="{StaticResource ContentPageBackroundLight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ImageColorDarkBrush" Color="{StaticResource ImageColorDark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ImageColorLightBrush" Color="{StaticResource ImageColorLight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="AddButtonDarkBrush" Color="{StaticResource AddButtonDark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="AddButtonLightBrush" Color="{StaticResource AddButtonLight}"></SolidColorBrush>
+    <SolidColorBrush x:Key="FirstMainGradientStopBrush" Color="{StaticResource FirstMainGradientStop}"/>
+    <SolidColorBrush x:Key="SecondMainGradientStopBrush" Color="{StaticResource SecondMainGradientStop}"/>
+    <SolidColorBrush x:Key="ThirdMainGradientStopBrush" Color="{StaticResource ThirdMainGradientStop}"/>
+    <SolidColorBrush x:Key="SortButtonDarkBrush" Color="{StaticResource SortButtonDark}"/>
+    <SolidColorBrush x:Key="SortButtonLightBrush" Color="{StaticResource SortButtonLight}"/>
+
+
+
+    <LinearGradientBrush x:Key="MainListViewItemBackground" EndPoint="1,0">
+        <GradientStop Color="{StaticResource FirstMainGradientStop}" Offset="0.01"/>
+        <GradientStop Color="{StaticResource SecondMainGradientStop}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource ThirdMainGradientStop}" Offset="1"/>
+    </LinearGradientBrush>
+
+
+    <Style x:Key="NoteEditor" TargetType="Editor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColorLight}}"/>
+        <Setter Property="Background" Value="{AppThemeBinding Dark=#373737, Light=White}"/>
+    </Style>
+
+    <Style x:Key="NoteEntry" TargetType="Entry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColorLight}}"/>
+        <Setter Property="Background" Value="{AppThemeBinding Dark=#373737, Light=White}"/>
+    </Style>
+    
+    <Style x:Key="NoteLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource LabelTextColorDark}, Light={StaticResource LabelTextColorLight}}"/>
+    </Style>
+
+
+    <Style x:Key="BlueButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource ThirdMainGradientStopBrush}, Light={StaticResource SecondMainGradientStopBrush}}"/>
+        <Setter Property="TextColor" Value="WhiteSmoke"/>
+        <Setter Property="CornerRadius" Value="2"/>
+    </Style>
+
+    <Style x:Key="SortButtonStyle" TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SortButtonDark}, Light={StaticResource SortButtonLight}}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+        <Setter Property="BorderWidth" Value="0"/>
+    </Style>
+
+    <Style x:Key="ChangeSortDirectionButtonStyle" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SortButtonDark}, Light={StaticResource SortButtonLight}}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BorderColor" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="MainListView" TargetType="ListView">
+        <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource ListViewBackroundDarkBrush}, Light={StaticResource ListViewBackroundLightBrush}}"/>
+    </Style>
+
+    <Style x:Key="MainListViewItem" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource MainListViewItemBackground}"/>
+        <Setter Property="Stroke" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="NoteContentPage" TargetType="ContentPage">
+        <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource ListViewBackroundDarkBrush}, Light={StaticResource ListViewBackroundLightBrush}}"/>
+    </Style>
+
+    <Style x:Key="AddNoteButton" TargetType="Frame">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="CornerRadius" Value="35"/>
+        <Setter Property="HeightRequest" Value="70"/>
+        <Setter Property="WidthRequest" Value="70"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Dark={StaticResource AddButtonDark}, Light={StaticResource AddButtonLight}}"/>
+        <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource AddButtonDark}, Light={StaticResource AddButtonLight}}"/>
+    </Style>
+
+</ResourceDictionary>

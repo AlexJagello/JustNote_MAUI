@@ -19,12 +19,13 @@ namespace JustNote_maui.Models
 
         private string listNoteStringInerpret;
 
-        public NoteListModel() 
+        public NoteListModel()
         {
             listNote = new ObservableCollection<ItemOfNoteList>();
         }
 
-   
+
+        public Type Type{ get => GetType(); }
 
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }

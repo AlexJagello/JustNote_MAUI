@@ -2,7 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="JustNote_maui.Help"
-             Title="Help">
+             Title="Help"
+             Background="{AppThemeBinding Dark={StaticResource ContentPageBackroundDarkBrush}, Light={StaticResource ContentPageBackroundLightBrush}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary x:Key="styleSource" Source="/Theme/Style.xaml"/>
+    </ContentPage.Resources>
+
+
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Help page" TextColor="Black"

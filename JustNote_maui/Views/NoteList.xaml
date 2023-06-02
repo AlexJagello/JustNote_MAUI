@@ -2,13 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:JustNote_maui.ViewModels"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:converters="clr-namespace:JustNote_maui.Converters"
              x:Class="JustNote_maui.NoteList"
-             Title="New List Note">
+             Title="New List Note"
+             Background="{AppThemeBinding Dark=#373737, Light=White}">
     <ContentPage.Resources>
-        <ResourceDictionary Source="/Theme/BlueTheme.xaml"/>
+        <ResourceDictionary Source="/Theme/Style.xaml"/>
+        <converters:TextToHeightConverter x:Key="textToHeightConverter" />
     </ContentPage.Resources>
-    
+
     <ContentPage.BindingContext>
         <vm:NoteListViewModel/>
     </ContentPage.BindingContext>
@@ -16,8 +18,8 @@
     
     <ContentPage.Content>
         <StackLayout Margin="5">
-            <Label Text="Title: " />
-            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}">
+            <Label Text="Title: " Style="{StaticResource NoteLabel}"/>
+            <Entry Text="{Binding Note.NoteTitle, Mode=TwoWay}" Style="{StaticResource NoteEntry}">
                 <Entry.Keyboard>
                     <Keyboard x:FactoryMethod="Create">
                         <x:Arguments>
@@ -26,49 +28,54 @@
                     </Keyboard>
                 </Entry.Keyboard>
             </Entry>
-            <Label Text="List: "/>
+            <Label Text="List: " Style="{StaticResource NoteLabel}"/>
 
-            <ListView ItemsSource="{Binding Note.NoteList}" SelectedItem="{Binding SelectedItemListOfNote}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="15"/>
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox IsChecked="{Binding IsDone}"/>
-                                    <Editor Grid.Column="1" Text="{Binding ItemNote, Mode=TwoWay}" IsReadOnly="{Binding IsDone}" MinimumWidthRequest="350" MaximumWidthRequest="4000">
-                                        <Editor.Keyboard>
-                                            <Keyboard x:FactoryMethod="Create">
-                                                <x:Arguments>
-                                                    <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
-                                                </x:Arguments>
-                                            </Keyboard>
-                                        </Editor.Keyboard>
-                                       <!--<Editor.Effects> -->
-                                        <!--      <xct:LifecycleEffect Loaded="LifecycleEffect_Loaded" /> -->
-                                        <!--  </Editor.Effects>  -->
-                                    </Editor>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ScrollView VerticalOptions="FillAndExpand" Orientation="Vertical" >
+                <StackLayout VerticalOptions="Start">
+                    <ListView ItemsSource="{Binding Note.NoteList}" SelectedItem="{Binding SelectedItemListOfNote}" VerticalOptions="Start" HasUnevenRows="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell >
+                                    <ViewCell.View>
+                                        <Grid VerticalOptions="FillAndExpand" MinimumHeightRequest="{Binding Path=HeightRequest,  Source={x:Reference Name=listEditor}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="15"/>
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox IsChecked="{Binding IsDone}"  HeightRequest="{Binding Path=HeightRequest,  Source={x:Reference Name=listEditor}}"/>
+                                            <ScrollView Grid.Column="1" Orientation="Vertical" HeightRequest="{Binding Path=HeightRequest,  Source={x:Reference Name=listEditor}}" VerticalOptions="FillAndExpand" MinimumWidthRequest="350" MaximumWidthRequest="4000" >
+                                                <Editor x:Name="listEditor" Grid.Column="1" VerticalOptions="FillAndExpand"  FontSize="15" HeightRequest="{Binding Path=Text,  Source={x:Reference Name=listEditor}, Converter={StaticResource textToHeightConverter}}" VerticalTextAlignment="Center" Text="{Binding ItemNote, Mode=TwoWay}" IsReadOnly="{Binding IsDone}" MinimumWidthRequest="350" MaximumWidthRequest="4000" AutoSize="TextChanges" 
+                                                       Style="{StaticResource NoteEditor}">
+                                                    <Editor.Keyboard>
+                                                        <Keyboard x:FactoryMethod="Create">
+                                                            <x:Arguments>
+                                                                <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                                                            </x:Arguments>
+                                                        </Keyboard>
+                                                    </Editor.Keyboard>
+                                                </Editor>
+                                            </ScrollView>
+                                        </Grid>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-            <Grid MinimumHeightRequest="28" HorizontalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Text="Add list item" Command="{Binding AddListItem}" Grid.Column="0" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
-                <Button Text="Delete list item" Command="{Binding RemoveListItem}" Grid.Column="1" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
-            </Grid>
+                    <Grid MinimumHeightRequest="28" HeightRequest="40" MaximumHeightRequest="50" HorizontalOptions="Start" VerticalOptions="Start" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Text="Add list item" Command="{Binding AddListItem}" Grid.Column="0" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
+                        <Button Text="Delete list item" Command="{Binding RemoveListItem}" Grid.Column="1" Margin="4" Style="{StaticResource BlueButtonStyle}"/>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
 
-            <Grid VerticalOptions="End">
+
+            <Grid VerticalOptions="End"  MinimumHeightRequest="28" HeightRequest="40" MaximumHeightRequest="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -81,3 +88,6 @@
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
+
+
+<!---->
